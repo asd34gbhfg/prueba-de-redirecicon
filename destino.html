@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Página de destino</title>
+</head>
+<body>
+    <h1>Información de la redirección</h1>
+    
+    <script>
+        // Obtiene los parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        const ip = urlParams.get('ip');
+        const country = urlParams.get('country');
+
+        // Realiza la validación (reemplaza esta lógica con tu propia validación)
+        if (id === 'miId' && ip && country) {
+            // Muestra la información en la página
+            document.write("<p>ID: " + id + "</p>");
+            document.write("<p>IP: " + ip + "</p>");
+            document.write("<p>País: " + country + "</p>");
+        } else {
+            // La validación falló, puedes mostrar un mensaje o redirigir a una página de error
+            document.write("<p>La validación falló. No tienes acceso a esta página.</p>");
+        }
+    </script>
+</body>
+</html>

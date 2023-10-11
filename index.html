@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Redirección con IP y país</title>
+</head>
+<body>
+    <p>Haz clic en el enlace para ser redirigido:</p>
+    
+    <a href="destino.html?id=miId">Ir a la página de destino</a>
+
+    <script>
+        // Obtén la dirección IP del usuario
+        fetch("https://ipinfo.io?token=TU_API_KEY")
+            .then(response => response.json())
+            .then(data => {
+                // Redirige al usuario a la página de destino
+                window.location.href = "destino.html?id=miId&ip=" + data.ip + "&country=" + data.country;
+            });
+    </script>
+</body>
+</html>
