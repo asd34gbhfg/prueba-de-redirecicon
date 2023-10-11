@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Redirección con IP y país</title>
+    <title>Redirección por IP y país</title>
 </head>
 <body>
-    <p>Haz clic en el enlace para ser redirigido:</p>
-    
-    <a href="destino.html?id=miId">Ir a la página de destino</a>
-
     <script>
-        // Obtén la dirección IP del usuario
-        fetch("https://ipinfo.io?token=TU_API_KEY")
-            .then(response => response.json())
-            .then(data => {
-                // Redirige al usuario a la página de destino
-                window.location.href = "destino.html?id=miId&ip=" + data.ip + "&country=" + data.country;
-            });
+        // Función para obtener el valor de un parámetro en la URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Obtenemos los valores de ID, IP y país de la URL
+        var id = getParameterByName('id');
+        var ip = getParameterByName('ip');
+        var country = getParameterByName('country');
+
+        // Validar la IP (puedes usar una expresión regular más robusta)
+        var validIP = /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/.test(ip);
+
+        if (validIP) {
+            // Redirigir si la IP es válida
+            var destinationURL = 'https://tudominio.com/destino?id=' + id + '&ip=' + ip + '&country=' + country;
+            window.location.href = destinationURL;
+        } else {
+            document.write('<p>La IP proporcionada no es válida.</p>');
+        }
     </script>
 </body>
 </html>
