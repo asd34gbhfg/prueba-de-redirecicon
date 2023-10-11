@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Redirección por IP y país</title>
+    <title>Redirección basada en IP, país e ID</title>
 </head>
 <body>
     <script>
-        // Función para obtener el valor de un parámetro en la URL
-        function getParameterByName(name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        // Define los valores de IP, país e ID deseados
+        const ipDeseada = 'IP_DESEADA';
+        const paisDeseado = 'PAIS_DESEADO';
+        const idDeseado = 'ID_DESEADO';
+
+        // Función para redirigir al usuario
+        function redirigirUsuario() {
+            // Obtiene la IP del usuario
+            fetch('https://ipinfo.io?token=b87433a112f9a8')
+                .then(response => response.json())
+                .then(data => {
+                    const ipUsuario = data.ip;
+                    const paisUsuario = data.country;
+
+                    // Realiza la validación de la IP, país e ID
+                    if (ipUsuario === ipDeseada && paisUsuario === paisDeseado && idDeseado === 'ID_DESEADO') {
+                        // Redirige al usuario al destino deseado
+                        window.location.href = 'https://tu_destino.com';
+                    } else {
+                        alert('La IP, el país o el ID no coinciden. No se redirigirá.');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error al obtener información de IP y país.');
+                });
         }
 
-        // Obtenemos los valores de ID, IP y país de la URL
-        var id = getParameterByName('id');
-        var ip = getParameterByName('ip');
-        var country = getParameterByName('country');
-
-        // Validar la IP (puedes usar una expresión regular más robusta)
-        var validIP = /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/.test(ip);
-
-        if (validIP) {
-            // Redirigir si la IP es válida
-            var destinationURL = 'https://tudominio.com/destino?id=' + id + '&ip=' + ip + '&country=' + country;
-            window.location.href = destinationURL;
-        } else {
-            document.write('<p>La IP proporcionada no es válida.</p>');
-        }
+        // Llama a la función de redirección cuando la página se carga
+        redirigirUsuario();
     </script>
 </body>
 </html>
