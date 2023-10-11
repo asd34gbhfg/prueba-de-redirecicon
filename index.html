@@ -1,40 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Redirección basada en IP, país e ID</title>
+    <title>Mi IP y País</title>
 </head>
 <body>
+    <h1>Información de IP y País</h1>
+    <p>Tu dirección IP es: <span id="ip"></span></p>
+    <p>Estás en el país: <span id="country"></span></p>
+
     <script>
-        // Define los valores de IP, país e ID deseados
-        const ipDeseada = 'IP_DESEADA';
-        const paisDeseado = 'PAIS_DESEADO';
-        const idDeseado = 'ID_DESEADO';
-
-        // Función para redirigir al usuario
-        function redirigirUsuario() {
-            // Obtiene la IP del usuario
-            fetch('https://ipinfo.io?token=b87433a112f9a8')
-                .then(response => response.json())
-                .then(data => {
-                    const ipUsuario = data.ip;
-                    const paisUsuario = data.country;
-
-                    // Realiza la validación de la IP, país e ID
-                    if (ipUsuario === ipDeseada && paisUsuario === paisDeseado && idDeseado === 'ID_DESEADO') {
-                        // Redirige al usuario al destino deseado
-                        window.location.href = 'https://tu_destino.com';
-                    } else {
-                        alert('La IP, el país o el ID no coinciden. No se redirigirá.');
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert('Error al obtener información de IP y país.');
-                });
-        }
-
-        // Llama a la función de redirección cuando la página se carga
-        redirigirUsuario();
+        // Hacer una solicitud a ipinfo.io para obtener la información
+        fetch('https://ipinfo.io')
+            .then(response => response.json())
+            .then(data => {
+                // Actualizar los elementos en la página con la información
+                document.getElementById('ip').textContent = data.ip;
+                document.getElementById('country').textContent = data.country;
+            })
+            .catch(error => console.error('Error al obtener información de IP:', error));
     </script>
 </body>
 </html>
+
